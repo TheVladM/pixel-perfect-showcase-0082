@@ -50,6 +50,36 @@ export type Database = {
         }
         Relationships: []
       }
+      campaigns: {
+        Row: {
+          created_at: string
+          description: string | null
+          end_date: string
+          id: string
+          name: string
+          reopened: boolean
+          start_date: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          end_date: string
+          id?: string
+          name: string
+          reopened?: boolean
+          start_date: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          end_date?: string
+          id?: string
+          name?: string
+          reopened?: boolean
+          start_date?: string
+        }
+        Relationships: []
+      }
       classes: {
         Row: {
           created_at: string
@@ -73,6 +103,53 @@ export type Database = {
           sort_order?: number
         }
         Relationships: []
+      }
+      form_fields: {
+        Row: {
+          campaign_id: string
+          created_at: string
+          field_type: string
+          id: string
+          is_active: boolean
+          label: string
+          options: Json
+          program_id: string | null
+          required: boolean
+          sort_order: number
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string
+          field_type: string
+          id?: string
+          is_active?: boolean
+          label: string
+          options?: Json
+          program_id?: string | null
+          required?: boolean
+          sort_order?: number
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string
+          field_type?: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          options?: Json
+          program_id?: string | null
+          required?: boolean
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_fields_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       login_logs: {
         Row: {
@@ -243,6 +320,105 @@ export type Database = {
         }
         Relationships: []
       }
+      student_records: {
+        Row: {
+          agent_name: string
+          campaign_id: string
+          class_id: string
+          created_at: string
+          created_by: string | null
+          custom_values: Json
+          deleted_at: string | null
+          deleted_by: string | null
+          deletion_reason: string | null
+          fields_snapshot: Json
+          first_name: string
+          id: string
+          is_deleted: boolean
+          last_name: string
+          school_id: string
+          series_id: string | null
+          sex: string
+          zone_id: string
+        }
+        Insert: {
+          agent_name: string
+          campaign_id: string
+          class_id: string
+          created_at?: string
+          created_by?: string | null
+          custom_values?: Json
+          deleted_at?: string | null
+          deleted_by?: string | null
+          deletion_reason?: string | null
+          fields_snapshot?: Json
+          first_name: string
+          id?: string
+          is_deleted?: boolean
+          last_name: string
+          school_id: string
+          series_id?: string | null
+          sex: string
+          zone_id: string
+        }
+        Update: {
+          agent_name?: string
+          campaign_id?: string
+          class_id?: string
+          created_at?: string
+          created_by?: string | null
+          custom_values?: Json
+          deleted_at?: string | null
+          deleted_by?: string | null
+          deletion_reason?: string | null
+          fields_snapshot?: Json
+          first_name?: string
+          id?: string
+          is_deleted?: boolean
+          last_name?: string
+          school_id?: string
+          series_id?: string | null
+          sex?: string
+          zone_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_records_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_records_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_records_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_records_series_id_fkey"
+            columns: ["series_id"]
+            isOneToOne: false
+            referencedRelation: "series"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_records_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -321,6 +497,29 @@ export type Database = {
         Args: { _email: string; _success: boolean; _user_agent: string }
         Returns: undefined
       }
+      soft_delete_record: {
+        Args: { _id: string; _reason: string }
+        Returns: undefined
+      }
+      stats_by_zone: {
+        Args: { _campaign_id?: string }
+        Returns: {
+          region_name: string
+          total: number
+          zone_code: string
+          zone_name: string
+        }[]
+      }
+      stats_my_zone: {
+        Args: never
+        Returns: {
+          campaign_id: string
+          campaign_name: string
+          today_count: number
+          total_count: number
+        }[]
+      }
+      stats_overview: { Args: never; Returns: Json }
     }
     Enums: {
       app_role:
