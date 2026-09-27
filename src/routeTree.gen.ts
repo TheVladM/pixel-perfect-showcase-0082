@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as InitialisationRouteImport } from './routes/initialisation'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
 import { Route as AuthenticatedSaisieIndexRouteImport } from './routes/_authenticated/saisie.index'
+import { Route as AuthenticatedSaisieCampaignIdRouteImport } from './routes/_authenticated/saisie.$campaignId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,17 +42,25 @@ const AuthenticatedSaisieIndexRoute =
     path: '/saisie/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSaisieCampaignIdRoute =
+  AuthenticatedSaisieCampaignIdRouteImport.update({
+    id: '/saisie/$campaignId',
+    path: '/saisie/$campaignId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/saisie/$campaignId': typeof AuthenticatedSaisieCampaignIdRoute
   '/saisie/': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/saisie/$campaignId': typeof AuthenticatedSaisieCampaignIdRoute
   '/saisie': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRoutesById {
@@ -60,19 +69,31 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/initialisation': typeof InitialisationRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/_authenticated/saisie/$campaignId': typeof AuthenticatedSaisieCampaignIdRoute
   '/_authenticated/saisie/': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/initialisation' | '/tableau-de-bord' | '/saisie/'
+  fullPaths:
+    | '/'
+    | '/initialisation'
+    | '/tableau-de-bord'
+    | '/saisie/$campaignId'
+    | '/saisie/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/initialisation' | '/tableau-de-bord' | '/saisie'
+  to:
+    | '/'
+    | '/initialisation'
+    | '/tableau-de-bord'
+    | '/saisie/$campaignId'
+    | '/saisie'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/initialisation'
     | '/_authenticated/tableau-de-bord'
+    | '/_authenticated/saisie/$campaignId'
     | '/_authenticated/saisie/'
   fileRoutesById: FileRoutesById
 }
@@ -119,16 +140,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSaisieIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/saisie/$campaignId': {
+      id: '/_authenticated/saisie/$campaignId'
+      path: '/saisie/$campaignId'
+      fullPath: '/saisie/$campaignId'
+      preLoaderRoute: typeof AuthenticatedSaisieCampaignIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
+  AuthenticatedSaisieCampaignIdRoute: typeof AuthenticatedSaisieCampaignIdRoute
   AuthenticatedSaisieIndexRoute: typeof AuthenticatedSaisieIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
+  AuthenticatedSaisieCampaignIdRoute: AuthenticatedSaisieCampaignIdRoute,
   AuthenticatedSaisieIndexRoute: AuthenticatedSaisieIndexRoute,
 }
 
