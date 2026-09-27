@@ -148,11 +148,11 @@ function RecordsPage() {
 
   async function confirmDelete() {
     if (!toDelete) return;
-    if (!reason.trim()) return toast.error("Le motif est obligatoire.");
+    if (!reason.trim()) return void toast.error("Le motif est obligatoire.");
     setDeleting(true);
     const { error } = await supabase.rpc("soft_delete_record", { _id: toDelete.id, _reason: reason.trim() });
     setDeleting(false);
-    if (error) return toast.error(frenchError(error.message));
+    if (error) return void toast.error(frenchError(error.message));
     toast.success("Fiche supprimée");
     setToDelete(null);
     setReason("");

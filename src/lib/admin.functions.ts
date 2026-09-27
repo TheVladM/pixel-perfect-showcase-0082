@@ -120,8 +120,8 @@ export const createAccount = createServerFn({ method: "POST" })
       id: userId,
       account_name: data.accountName,
       email: data.email,
-      region_id: data.role === "superviseur" ? data.regionId : null,
-      zone_id: data.role === "zone" ? data.zoneId : null,
+      region_id: data.role === "superviseur" ? (data.regionId ?? null) : null,
+      zone_id: data.role === "zone" ? (data.zoneId ?? null) : null,
       is_active: true,
     });
     if (pErr) {

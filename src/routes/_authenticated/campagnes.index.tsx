@@ -62,15 +62,15 @@ function CampaignsPage() {
 
   async function save() {
     if (!edit) return;
-    if (!edit.name?.trim() || !edit.start_date || !edit.end_date) return toast.error("Nom et dates obligatoires.");
-    if (edit.end_date < edit.start_date) return toast.error("La date de fin doit suivre la date de début.");
+    if (!edit.name?.trim() || !edit.start_date || !edit.end_date) return void toast.error("Nom et dates obligatoires.");
+    if (edit.end_date < edit.start_date) return void toast.error("La date de fin doit suivre la date de début.");
     setSaving(true);
     const payload = { name: edit.name.trim(), description: edit.description ?? null, start_date: edit.start_date, end_date: edit.end_date };
     const { error } = edit.id
       ? await supabase.from("campaigns").update(payload).eq("id", edit.id)
       : await supabase.from("campaigns").insert(payload);
     setSaving(false);
-    if (error) return toast.error(frenchError(error.message));
+    if (error) return void toast.error(frenchError(error.message));
     toast.success(edit.id ? "Campagne modifiée" : "Campagne créée");
     setEdit(null);
     qc.invalidateQueries({ queryKey: ["campaigns"] });
@@ -79,7 +79,7 @@ function CampaignsPage() {
   async function doToggle() {
     if (!toggle) return;
     const { error } = await supabase.from("campaigns").update({ reopened: !toggle.reopened }).eq("id", toggle.id);
-    if (error) return toast.error(frenchError(error.message));
+    if (error) return void toast.error(frenchError(error.message));
     toast.success(toggle.reopened ? "Campagne clôturée" : "Campagne rouverte");
     setToggle(null);
     qc.invalidateQueries({ queryKey: ["campaigns"] });
