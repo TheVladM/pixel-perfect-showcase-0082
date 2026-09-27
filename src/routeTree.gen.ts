@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as InitialisationRouteImport } from './routes/initialisation'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
+import { Route as AuthenticatedSaisieIndexRouteImport } from './routes/_authenticated/saisie.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,16 +35,24 @@ const AuthenticatedTableauDeBordRoute =
     path: '/tableau-de-bord',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSaisieIndexRoute =
+  AuthenticatedSaisieIndexRouteImport.update({
+    id: '/saisie/',
+    path: '/saisie/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/saisie/': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/saisie': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -51,18 +60,20 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/initialisation': typeof InitialisationRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/_authenticated/saisie/': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/initialisation' | '/tableau-de-bord'
+  fullPaths: '/' | '/initialisation' | '/tableau-de-bord' | '/saisie/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/initialisation' | '/tableau-de-bord'
+  to: '/' | '/initialisation' | '/tableau-de-bord' | '/saisie'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/initialisation'
     | '/_authenticated/tableau-de-bord'
+    | '/_authenticated/saisie/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -101,15 +112,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTableauDeBordRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/saisie/': {
+      id: '/_authenticated/saisie/'
+      path: '/saisie'
+      fullPath: '/saisie/'
+      preLoaderRoute: typeof AuthenticatedSaisieIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
+  AuthenticatedSaisieIndexRoute: typeof AuthenticatedSaisieIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
+  AuthenticatedSaisieIndexRoute: AuthenticatedSaisieIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
