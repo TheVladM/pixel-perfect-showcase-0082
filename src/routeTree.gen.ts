@@ -12,7 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as InitialisationRouteImport } from './routes/initialisation'
+import { Route as AuthenticatedFichesRouteImport } from './routes/_authenticated/fiches'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
+import { Route as AuthenticatedCampagnesIndexRouteImport } from './routes/_authenticated/campagnes.index'
+import { Route as AuthenticatedCampagnesCampaignIdRouteImport } from './routes/_authenticated/campagnes.$campaignId'
+import { Route as AuthenticatedSaisieIndexRouteImport } from './routes/_authenticated/saisie.index'
+import { Route as AuthenticatedSaisieCampaignIdRouteImport } from './routes/_authenticated/saisie.$campaignId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,41 +33,106 @@ const InitialisationRoute = InitialisationRouteImport.update({
   path: '/initialisation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedFichesRoute = AuthenticatedFichesRouteImport.update({
+  id: '/fiches',
+  path: '/fiches',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTableauDeBordRoute =
   AuthenticatedTableauDeBordRouteImport.update({
     id: '/tableau-de-bord',
     path: '/tableau-de-bord',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCampagnesIndexRoute =
+  AuthenticatedCampagnesIndexRouteImport.update({
+    id: '/campagnes/',
+    path: '/campagnes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCampagnesCampaignIdRoute =
+  AuthenticatedCampagnesCampaignIdRouteImport.update({
+    id: '/campagnes/$campaignId',
+    path: '/campagnes/$campaignId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSaisieIndexRoute =
+  AuthenticatedSaisieIndexRouteImport.update({
+    id: '/saisie/',
+    path: '/saisie/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSaisieCampaignIdRoute =
+  AuthenticatedSaisieCampaignIdRouteImport.update({
+    id: '/saisie/$campaignId',
+    path: '/saisie/$campaignId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
+  '/fiches': typeof AuthenticatedFichesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/campagnes/$campaignId': typeof AuthenticatedCampagnesCampaignIdRoute
+  '/saisie/$campaignId': typeof AuthenticatedSaisieCampaignIdRoute
+  '/campagnes/': typeof AuthenticatedCampagnesIndexRoute
+  '/saisie/': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
+  '/fiches': typeof AuthenticatedFichesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/campagnes/$campaignId': typeof AuthenticatedCampagnesCampaignIdRoute
+  '/saisie/$campaignId': typeof AuthenticatedSaisieCampaignIdRoute
+  '/campagnes': typeof AuthenticatedCampagnesIndexRoute
+  '/saisie': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/initialisation': typeof InitialisationRoute
+  '/_authenticated/fiches': typeof AuthenticatedFichesRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/_authenticated/campagnes/$campaignId': typeof AuthenticatedCampagnesCampaignIdRoute
+  '/_authenticated/saisie/$campaignId': typeof AuthenticatedSaisieCampaignIdRoute
+  '/_authenticated/campagnes/': typeof AuthenticatedCampagnesIndexRoute
+  '/_authenticated/saisie/': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/initialisation' | '/tableau-de-bord'
+  fullPaths:
+    | '/'
+    | '/initialisation'
+    | '/fiches'
+    | '/tableau-de-bord'
+    | '/campagnes/$campaignId'
+    | '/saisie/$campaignId'
+    | '/campagnes/'
+    | '/saisie/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/initialisation' | '/tableau-de-bord'
+  to:
+    | '/'
+    | '/initialisation'
+    | '/fiches'
+    | '/tableau-de-bord'
+    | '/campagnes/$campaignId'
+    | '/saisie/$campaignId'
+    | '/campagnes'
+    | '/saisie'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/initialisation'
+    | '/_authenticated/fiches'
     | '/_authenticated/tableau-de-bord'
+    | '/_authenticated/campagnes/$campaignId'
+    | '/_authenticated/saisie/$campaignId'
+    | '/_authenticated/campagnes/'
+    | '/_authenticated/saisie/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InitialisationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/fiches': {
+      id: '/_authenticated/fiches'
+      path: '/fiches'
+      fullPath: '/fiches'
+      preLoaderRoute: typeof AuthenticatedFichesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tableau-de-bord': {
       id: '/_authenticated/tableau-de-bord'
       path: '/tableau-de-bord'
@@ -101,15 +178,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTableauDeBordRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/campagnes/': {
+      id: '/_authenticated/campagnes/'
+      path: '/campagnes'
+      fullPath: '/campagnes/'
+      preLoaderRoute: typeof AuthenticatedCampagnesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/campagnes/$campaignId': {
+      id: '/_authenticated/campagnes/$campaignId'
+      path: '/campagnes/$campaignId'
+      fullPath: '/campagnes/$campaignId'
+      preLoaderRoute: typeof AuthenticatedCampagnesCampaignIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saisie/': {
+      id: '/_authenticated/saisie/'
+      path: '/saisie'
+      fullPath: '/saisie/'
+      preLoaderRoute: typeof AuthenticatedSaisieIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saisie/$campaignId': {
+      id: '/_authenticated/saisie/$campaignId'
+      path: '/saisie/$campaignId'
+      fullPath: '/saisie/$campaignId'
+      preLoaderRoute: typeof AuthenticatedSaisieCampaignIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedFichesRoute: typeof AuthenticatedFichesRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
+  AuthenticatedCampagnesCampaignIdRoute: typeof AuthenticatedCampagnesCampaignIdRoute
+  AuthenticatedSaisieCampaignIdRoute: typeof AuthenticatedSaisieCampaignIdRoute
+  AuthenticatedCampagnesIndexRoute: typeof AuthenticatedCampagnesIndexRoute
+  AuthenticatedSaisieIndexRoute: typeof AuthenticatedSaisieIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedFichesRoute: AuthenticatedFichesRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
+  AuthenticatedCampagnesCampaignIdRoute: AuthenticatedCampagnesCampaignIdRoute,
+  AuthenticatedSaisieCampaignIdRoute: AuthenticatedSaisieCampaignIdRoute,
+  AuthenticatedCampagnesIndexRoute: AuthenticatedCampagnesIndexRoute,
+  AuthenticatedSaisieIndexRoute: AuthenticatedSaisieIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

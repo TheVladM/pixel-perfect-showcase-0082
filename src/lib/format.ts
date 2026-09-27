@@ -55,6 +55,9 @@ export function frenchError(message?: string | null): string {
   if (/invalid login credentials/i.test(m)) return "Email ou mot de passe incorrect.";
   if (/email not confirmed/i.test(m)) return "Ce compte n'est pas encore confirmé.";
   if (/user is banned|banned/i.test(m)) return "Ce compte est désactivé. Contactez l'administrateur principal.";
+  if (/weak|pwned|easy to guess/i.test(m))
+    return "Mot de passe trop courant (présent dans des fuites connues). Choisissez-en un plus original.";
+  if (/already been registered/i.test(m)) return "Un compte existe déjà avec cet email.";
   if (/duplicate key|already exists/i.test(m)) return "Cet enregistrement existe déjà.";
   if (/row-level security|permission denied/i.test(m))
     return "Action non autorisée pour votre compte.";
