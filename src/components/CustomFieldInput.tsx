@@ -29,7 +29,7 @@ export function CustomFieldInput({
   if (field.field_type === "select") {
     const opts = Array.isArray(field.options) ? (field.options as string[]) : [];
     return (
-      <Select value={value || undefined} onValueChange={onChange} disabled={disabled}>
+      <Select value={value} onValueChange={onChange} disabled={disabled ?? false}>
         <SelectTrigger className="h-12 text-base">
           <SelectValue placeholder="Choisir…" />
         </SelectTrigger>

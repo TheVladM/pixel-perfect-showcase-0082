@@ -100,14 +100,14 @@ function EntryForm() {
   async function submit(again: boolean) {
     if (saving) return;
     if (!agent) return setAgentDialog(true);
-    if (!schoolId) return toast.error("Choisissez un établissement.");
-    if (!classId) return toast.error("Choisissez une classe.");
-    if (needsSeries && !seriesId) return toast.error("La série est obligatoire pour cette classe.");
-    if (!lastName.trim() || !firstName.trim()) return toast.error("Le nom et le prénom sont obligatoires.");
-    if (!sex) return toast.error("Indiquez le sexe de l'élève.");
+    if (!schoolId) return void toast.error("Choisissez un établissement.");
+    if (!classId) return void toast.error("Choisissez une classe.");
+    if (needsSeries && !seriesId) return void toast.error("La série est obligatoire pour cette classe.");
+    if (!lastName.trim() || !firstName.trim()) return void toast.error("Le nom et le prénom sont obligatoires.");
+    if (!sex) return void toast.error("Indiquez le sexe de l'élève.");
     for (const f of activeFields) {
       if (f.required && !(custom[f.id] ?? "").trim()) {
-        return toast.error(`Le champ « ${f.label} » est obligatoire.`);
+        return void toast.error(`Le champ « ${f.label} » est obligatoire.`);
       }
     }
     setSaving(true);
@@ -202,7 +202,7 @@ function EntryForm() {
           <div className="space-y-2">
             <Label>Classe *</Label>
             <Select
-              value={classId || undefined}
+              value={classId}
               onValueChange={(v) => {
                 setClassId(v);
                 setSeriesId("");
@@ -223,7 +223,7 @@ function EntryForm() {
           {needsSeries ? (
             <div className="space-y-2">
               <Label>Série *</Label>
-              <Select value={seriesId || undefined} onValueChange={setSeriesId}>
+              <Select value={seriesId} onValueChange={setSeriesId}>
                 <SelectTrigger className="h-12 text-base">
                   <SelectValue placeholder="Série" />
                 </SelectTrigger>

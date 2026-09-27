@@ -64,14 +64,14 @@ function FormBuilder() {
   const list = fields ?? [];
 
   async function add() {
-    if (!label.trim()) return toast.error("Le libellé est obligatoire.");
+    if (!label.trim()) return void toast.error("Le libellé est obligatoire.");
     const opts = type === "select" ? options.split(/\n|,/).map((o) => o.trim()).filter(Boolean) : [];
-    if (type === "select" && opts.length < 2) return toast.error("Indiquez au moins deux options.");
+    if (type === "select" && opts.length < 2) return void toast.error("Indiquez au moins deux options.");
     const max = list.reduce((m, f) => Math.max(m, f.sort_order), 0);
     const { error } = await supabase.from("form_fields").insert({
       campaign_id: campaignId, label: label.trim(), field_type: type, required, options: opts, sort_order: max + 1,
     });
-    if (error) return toast.error(frenchError(error.message));
+    if (error) return void toast.error(frenchError(error.message));
     toast.success("Champ ajouté");
     setLabel(""); setOptions(""); setRequired(false); setType("text");
     refresh();
@@ -82,7 +82,7 @@ function FormBuilder() {
     if (!a || !b) return;
     const r1 = await supabase.from("form_fields").update({ sort_order: b.sort_order }).eq("id", a.id);
     const r2 = await supabase.from("form_fields").update({ sort_order: a.sort_order }).eq("id", b.id);
-    if (r1.error || r2.error) return toast.error(frenchError((r1.error ?? r2.error)?.message));
+    if (r1.error || r2.error) return void toast.error(frenchError((r1.error ?? r2.error)?.message));
     if (a.sort_order === b.sort_order) {
       await supabase.from("form_fields").update({ sort_order: a.sort_order + dir }).eq("id", a.id);
     }
@@ -91,7 +91,7 @@ function FormBuilder() {
 
   async function setActive(id: string, active: boolean) {
     const { error } = await supabase.from("form_fields").update({ is_active: active }).eq("id", id);
-    if (error) return toast.error(frenchError(error.message));
+    if (error) return void toast.error(frenchError(error.message));
     toast.success(active ? "Champ réactivé" : "Champ désactivé");
     setToDeactivate(null);
     refresh();

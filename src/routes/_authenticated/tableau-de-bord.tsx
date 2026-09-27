@@ -63,7 +63,7 @@ function ZoneTable({ campaignId }: { campaignId: string | null }) {
     queryKey: ["stats_by_zone", campaignId],
     queryFn: async () => {
       const { data, error } = await supabase.rpc("stats_by_zone", {
-        _campaign_id: campaignId,
+        _campaign_id: campaignId ?? undefined,
       });
       if (error) throw error;
       return data ?? [];
