@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, CheckCheck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export function NotificationBell({ userId, className }: { userId: string; className?: string }) {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const router = useRouter();
   const key = ["notifications", userId];
 
   const { data } = useQuery({
@@ -54,7 +54,7 @@ export function NotificationBell({ userId, className }: { userId: string; classN
   async function open(id: string, link: string | null) {
     await supabase.rpc("mark_notification_read", { _id: id });
     void queryClient.invalidateQueries({ queryKey: key });
-    if (link) navigate({ to: link });
+    if (link) router.history.push(link);
   }
 
   async function markAll() {
