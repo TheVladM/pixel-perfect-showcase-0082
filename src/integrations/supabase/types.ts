@@ -14,6 +14,21 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          id: boolean
+          order_counter: number
+        }
+        Insert: {
+          id?: boolean
+          order_counter?: number
+        }
+        Update: {
+          id?: boolean
+          order_counter?: number
+        }
+        Relationships: []
+      }
       audit_log: {
         Row: {
           action: string
@@ -185,6 +200,217 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          is_read: boolean
+          link: string | null
+          recipient_id: string
+          title: string
+          type: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          recipient_id: string
+          title: string
+          type: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          recipient_id?: string
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      order_history: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_name: string | null
+          actor_role: string | null
+          after: Json | null
+          before: Json | null
+          created_at: string
+          id: string
+          order_id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_name?: string | null
+          actor_role?: string | null
+          after?: Json | null
+          before?: Json | null
+          created_at?: string
+          id?: string
+          order_id: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_name?: string | null
+          actor_role?: string | null
+          after?: Json | null
+          before?: Json | null
+          created_at?: string
+          id?: string
+          order_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_history_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_items: {
+        Row: {
+          added_by_admin: boolean
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string
+          product_name: string
+          product_unit: string
+          requested_quantity: number
+          retained_quantity: number
+        }
+        Insert: {
+          added_by_admin?: boolean
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id: string
+          product_name: string
+          product_unit: string
+          requested_quantity?: number
+          retained_quantity?: number
+        }
+        Update: {
+          added_by_admin?: boolean
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string
+          product_name?: string
+          product_unit?: string
+          requested_quantity?: number
+          retained_quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          agent_name: string
+          comment: string | null
+          created_at: string
+          created_by: string | null
+          decided_at: string | null
+          decided_by: string | null
+          decided_role: string | null
+          id: string
+          order_number: string | null
+          pickup_instructions: string | null
+          rejection_reason: string | null
+          status: Database["public"]["Enums"]["order_status"]
+          zone_id: string
+        }
+        Insert: {
+          agent_name: string
+          comment?: string | null
+          created_at?: string
+          created_by?: string | null
+          decided_at?: string | null
+          decided_by?: string | null
+          decided_role?: string | null
+          id?: string
+          order_number?: string | null
+          pickup_instructions?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          zone_id: string
+        }
+        Update: {
+          agent_name?: string
+          comment?: string | null
+          created_at?: string
+          created_by?: string | null
+          decided_at?: string | null
+          decided_by?: string | null
+          decided_role?: string | null
+          id?: string
+          order_number?: string | null
+          pickup_instructions?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          zone_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_available: boolean
+          name: string
+          unit: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_available?: boolean
+          name: string
+          unit: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_available?: boolean
+          name?: string
+          unit?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -477,13 +703,33 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      adjust_order: {
+        Args: { _items: Json; _order_id: string }
+        Returns: undefined
+      }
+      can_manage_orders: { Args: never; Returns: boolean }
       can_read_all_records: { Args: never; Returns: boolean }
+      can_read_orders: { Args: never; Returns: boolean }
+      cancel_order: { Args: { _order_id: string }; Returns: undefined }
+      create_order: {
+        Args: {
+          _agent_name: string
+          _comment: string
+          _items: Json
+          _zone_id: string
+        }
+        Returns: string
+      }
       current_region_id: { Args: never; Returns: string }
       current_user_role: {
         Args: never
         Returns: Database["public"]["Enums"]["app_role"]
       }
       current_zone_id: { Args: never; Returns: string }
+      decide_order: {
+        Args: { _decision: string; _order_id: string; _reason: string }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -497,6 +743,22 @@ export type Database = {
         Args: { _email: string; _success: boolean; _user_agent: string }
         Returns: undefined
       }
+      log_order: {
+        Args: {
+          _action: string
+          _after: Json
+          _before: Json
+          _order_id: string
+        }
+        Returns: undefined
+      }
+      mark_all_read: { Args: never; Returns: undefined }
+      mark_notification_read: { Args: { _id: string }; Returns: undefined }
+      mark_order_ready: {
+        Args: { _order_id: string; _pickup_instructions: string }
+        Returns: undefined
+      }
+      order_items_snapshot: { Args: { _order_id: string }; Returns: Json }
       soft_delete_record: {
         Args: { _id: string; _reason: string }
         Returns: undefined
@@ -529,6 +791,7 @@ export type Database = {
         | "promoteur"
         | "superviseur"
         | "zone"
+      order_status: "pending" | "cancelled" | "validated" | "rejected" | "ready"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -664,6 +927,7 @@ export const Constants = {
         "superviseur",
         "zone",
       ],
+      order_status: ["pending", "cancelled", "validated", "rejected", "ready"],
     },
   },
 } as const
