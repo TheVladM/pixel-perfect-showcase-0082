@@ -12,10 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as InitialisationRouteImport } from './routes/initialisation'
+import { Route as AuthenticatedCatalogueRouteImport } from './routes/_authenticated/catalogue'
+import { Route as AuthenticatedCommanderRouteImport } from './routes/_authenticated/commander'
 import { Route as AuthenticatedFichesRouteImport } from './routes/_authenticated/fiches'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
 import { Route as AuthenticatedCampagnesIndexRouteImport } from './routes/_authenticated/campagnes.index'
 import { Route as AuthenticatedCampagnesCampaignIdRouteImport } from './routes/_authenticated/campagnes.$campaignId'
+import { Route as AuthenticatedCommandesIndexRouteImport } from './routes/_authenticated/commandes.index'
+import { Route as AuthenticatedCommandesOrderIdRouteImport } from './routes/_authenticated/commandes.$orderId'
+import { Route as AuthenticatedMesCommandesIndexRouteImport } from './routes/_authenticated/mes-commandes.index'
+import { Route as AuthenticatedMesCommandesOrderIdRouteImport } from './routes/_authenticated/mes-commandes.$orderId'
 import { Route as AuthenticatedSaisieIndexRouteImport } from './routes/_authenticated/saisie.index'
 import { Route as AuthenticatedSaisieCampaignIdRouteImport } from './routes/_authenticated/saisie.$campaignId'
 
@@ -32,6 +38,16 @@ const InitialisationRoute = InitialisationRouteImport.update({
   id: '/initialisation',
   path: '/initialisation',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCatalogueRoute = AuthenticatedCatalogueRouteImport.update({
+  id: '/catalogue',
+  path: '/catalogue',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCommanderRoute = AuthenticatedCommanderRouteImport.update({
+  id: '/commander',
+  path: '/commander',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedFichesRoute = AuthenticatedFichesRouteImport.update({
   id: '/fiches',
@@ -56,6 +72,30 @@ const AuthenticatedCampagnesCampaignIdRoute =
     path: '/campagnes/$campaignId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCommandesIndexRoute =
+  AuthenticatedCommandesIndexRouteImport.update({
+    id: '/commandes/',
+    path: '/commandes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCommandesOrderIdRoute =
+  AuthenticatedCommandesOrderIdRouteImport.update({
+    id: '/commandes/$orderId',
+    path: '/commandes/$orderId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMesCommandesIndexRoute =
+  AuthenticatedMesCommandesIndexRouteImport.update({
+    id: '/mes-commandes/',
+    path: '/mes-commandes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMesCommandesOrderIdRoute =
+  AuthenticatedMesCommandesOrderIdRouteImport.update({
+    id: '/mes-commandes/$orderId',
+    path: '/mes-commandes/$orderId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSaisieIndexRoute =
   AuthenticatedSaisieIndexRouteImport.update({
     id: '/saisie/',
@@ -72,21 +112,33 @@ const AuthenticatedSaisieCampaignIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
+  '/catalogue': typeof AuthenticatedCatalogueRoute
+  '/commander': typeof AuthenticatedCommanderRoute
   '/fiches': typeof AuthenticatedFichesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/campagnes/$campaignId': typeof AuthenticatedCampagnesCampaignIdRoute
+  '/commandes/$orderId': typeof AuthenticatedCommandesOrderIdRoute
+  '/mes-commandes/$orderId': typeof AuthenticatedMesCommandesOrderIdRoute
   '/saisie/$campaignId': typeof AuthenticatedSaisieCampaignIdRoute
   '/campagnes/': typeof AuthenticatedCampagnesIndexRoute
+  '/commandes/': typeof AuthenticatedCommandesIndexRoute
+  '/mes-commandes/': typeof AuthenticatedMesCommandesIndexRoute
   '/saisie/': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
+  '/catalogue': typeof AuthenticatedCatalogueRoute
+  '/commander': typeof AuthenticatedCommanderRoute
   '/fiches': typeof AuthenticatedFichesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/campagnes/$campaignId': typeof AuthenticatedCampagnesCampaignIdRoute
+  '/commandes/$orderId': typeof AuthenticatedCommandesOrderIdRoute
+  '/mes-commandes/$orderId': typeof AuthenticatedMesCommandesOrderIdRoute
   '/saisie/$campaignId': typeof AuthenticatedSaisieCampaignIdRoute
   '/campagnes': typeof AuthenticatedCampagnesIndexRoute
+  '/commandes': typeof AuthenticatedCommandesIndexRoute
+  '/mes-commandes': typeof AuthenticatedMesCommandesIndexRoute
   '/saisie': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRoutesById {
@@ -94,11 +146,17 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/initialisation': typeof InitialisationRoute
+  '/_authenticated/catalogue': typeof AuthenticatedCatalogueRoute
+  '/_authenticated/commander': typeof AuthenticatedCommanderRoute
   '/_authenticated/fiches': typeof AuthenticatedFichesRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/_authenticated/campagnes/$campaignId': typeof AuthenticatedCampagnesCampaignIdRoute
+  '/_authenticated/commandes/$orderId': typeof AuthenticatedCommandesOrderIdRoute
+  '/_authenticated/mes-commandes/$orderId': typeof AuthenticatedMesCommandesOrderIdRoute
   '/_authenticated/saisie/$campaignId': typeof AuthenticatedSaisieCampaignIdRoute
   '/_authenticated/campagnes/': typeof AuthenticatedCampagnesIndexRoute
+  '/_authenticated/commandes/': typeof AuthenticatedCommandesIndexRoute
+  '/_authenticated/mes-commandes/': typeof AuthenticatedMesCommandesIndexRoute
   '/_authenticated/saisie/': typeof AuthenticatedSaisieIndexRoute
 }
 export interface FileRouteTypes {
@@ -106,32 +164,50 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/initialisation'
+    | '/catalogue'
+    | '/commander'
     | '/fiches'
     | '/tableau-de-bord'
     | '/campagnes/$campaignId'
+    | '/commandes/$orderId'
+    | '/mes-commandes/$orderId'
     | '/saisie/$campaignId'
     | '/campagnes/'
+    | '/commandes/'
+    | '/mes-commandes/'
     | '/saisie/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/initialisation'
+    | '/catalogue'
+    | '/commander'
     | '/fiches'
     | '/tableau-de-bord'
     | '/campagnes/$campaignId'
+    | '/commandes/$orderId'
+    | '/mes-commandes/$orderId'
     | '/saisie/$campaignId'
     | '/campagnes'
+    | '/commandes'
+    | '/mes-commandes'
     | '/saisie'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/initialisation'
+    | '/_authenticated/catalogue'
+    | '/_authenticated/commander'
     | '/_authenticated/fiches'
     | '/_authenticated/tableau-de-bord'
     | '/_authenticated/campagnes/$campaignId'
+    | '/_authenticated/commandes/$orderId'
+    | '/_authenticated/mes-commandes/$orderId'
     | '/_authenticated/saisie/$campaignId'
     | '/_authenticated/campagnes/'
+    | '/_authenticated/commandes/'
+    | '/_authenticated/mes-commandes/'
     | '/_authenticated/saisie/'
   fileRoutesById: FileRoutesById
 }
@@ -164,6 +240,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InitialisationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/catalogue': {
+      id: '/_authenticated/catalogue'
+      path: '/catalogue'
+      fullPath: '/catalogue'
+      preLoaderRoute: typeof AuthenticatedCatalogueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/commander': {
+      id: '/_authenticated/commander'
+      path: '/commander'
+      fullPath: '/commander'
+      preLoaderRoute: typeof AuthenticatedCommanderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/fiches': {
       id: '/_authenticated/fiches'
       path: '/fiches'
@@ -192,6 +282,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCampagnesCampaignIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/commandes/': {
+      id: '/_authenticated/commandes/'
+      path: '/commandes'
+      fullPath: '/commandes/'
+      preLoaderRoute: typeof AuthenticatedCommandesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/commandes/$orderId': {
+      id: '/_authenticated/commandes/$orderId'
+      path: '/commandes/$orderId'
+      fullPath: '/commandes/$orderId'
+      preLoaderRoute: typeof AuthenticatedCommandesOrderIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mes-commandes/': {
+      id: '/_authenticated/mes-commandes/'
+      path: '/mes-commandes'
+      fullPath: '/mes-commandes/'
+      preLoaderRoute: typeof AuthenticatedMesCommandesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mes-commandes/$orderId': {
+      id: '/_authenticated/mes-commandes/$orderId'
+      path: '/mes-commandes/$orderId'
+      fullPath: '/mes-commandes/$orderId'
+      preLoaderRoute: typeof AuthenticatedMesCommandesOrderIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/saisie/': {
       id: '/_authenticated/saisie/'
       path: '/saisie'
@@ -210,20 +328,32 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCatalogueRoute: typeof AuthenticatedCatalogueRoute
+  AuthenticatedCommanderRoute: typeof AuthenticatedCommanderRoute
   AuthenticatedFichesRoute: typeof AuthenticatedFichesRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
   AuthenticatedCampagnesCampaignIdRoute: typeof AuthenticatedCampagnesCampaignIdRoute
+  AuthenticatedCommandesOrderIdRoute: typeof AuthenticatedCommandesOrderIdRoute
+  AuthenticatedMesCommandesOrderIdRoute: typeof AuthenticatedMesCommandesOrderIdRoute
   AuthenticatedSaisieCampaignIdRoute: typeof AuthenticatedSaisieCampaignIdRoute
   AuthenticatedCampagnesIndexRoute: typeof AuthenticatedCampagnesIndexRoute
+  AuthenticatedCommandesIndexRoute: typeof AuthenticatedCommandesIndexRoute
+  AuthenticatedMesCommandesIndexRoute: typeof AuthenticatedMesCommandesIndexRoute
   AuthenticatedSaisieIndexRoute: typeof AuthenticatedSaisieIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCatalogueRoute: AuthenticatedCatalogueRoute,
+  AuthenticatedCommanderRoute: AuthenticatedCommanderRoute,
   AuthenticatedFichesRoute: AuthenticatedFichesRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
   AuthenticatedCampagnesCampaignIdRoute: AuthenticatedCampagnesCampaignIdRoute,
+  AuthenticatedCommandesOrderIdRoute: AuthenticatedCommandesOrderIdRoute,
+  AuthenticatedMesCommandesOrderIdRoute: AuthenticatedMesCommandesOrderIdRoute,
   AuthenticatedSaisieCampaignIdRoute: AuthenticatedSaisieCampaignIdRoute,
   AuthenticatedCampagnesIndexRoute: AuthenticatedCampagnesIndexRoute,
+  AuthenticatedCommandesIndexRoute: AuthenticatedCommandesIndexRoute,
+  AuthenticatedMesCommandesIndexRoute: AuthenticatedMesCommandesIndexRoute,
   AuthenticatedSaisieIndexRoute: AuthenticatedSaisieIndexRoute,
 }
 
