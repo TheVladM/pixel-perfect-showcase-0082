@@ -10,6 +10,9 @@ import {
   LogOut,
   Map,
   Menu,
+  Package,
+  ShoppingCart,
+  ClipboardList,
   MoreHorizontal,
   PenLine,
   ScrollText,
@@ -20,6 +23,7 @@ import type { LucideIcon } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { RoleBadge } from "@/components/RoleBadge";
+import { NotificationBell } from "@/components/NotificationBell";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -43,6 +47,16 @@ const NAV: NavItem[] = [
     icon: FileText,
     roles: ["admin_principal", "dg", "promoteur", "zone"],
   },
+  { to: "/commander", label: "Catalogue", short: "Commander", icon: ShoppingCart, roles: ["zone"] },
+  { to: "/mes-commandes", label: "Mes commandes", short: "Commandes", icon: ClipboardList, roles: ["zone"] },
+  {
+    to: "/commandes",
+    label: "Commandes",
+    short: "Commandes",
+    icon: ClipboardList,
+    roles: ["admin_principal", "admin_logistique", "dg", "promoteur"],
+  },
+  { to: "/catalogue", label: "Catalogue", short: "Catalogue", icon: Package, roles: ["admin_principal"] },
   {
     to: "/campagnes",
     label: "Campagnes",
@@ -178,7 +192,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col justify-between bg-sidebar p-4 lg:flex">
         <div className="space-y-6">
-          <Brand />
+          <div className="flex items-center justify-between text-sidebar-foreground">
+            <Brand />
+            {me ? <NotificationBell userId={me.userId} /> : null}
+          </div>
           {me ? <NavLinks items={items} /> : null}
         </div>
         {me ? <AccountBlock me={me} onSignOut={handleSignOut} /> : null}
@@ -194,6 +211,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <RoleBadge role={me.role} className="mt-0.5" />
             </div>
           ) : null}
+          {me ? <NotificationBell userId={me.userId} /> : null}
           <Sheet>
             <SheetTrigger asChild>
               <button
