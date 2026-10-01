@@ -34,8 +34,10 @@ export function NotificationBell({ userId, className }: { userId: string; classN
   });
 
   useEffect(() => {
+    // Unique name per mounted bell (desktop + mobile both mount one); reusing a name
+    // returns the already-subscribed channel and .on() then throws.
     const channel = supabase
-      .channel(`notifications-${userId}`)
+      .channel(`notifications-${userId}-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "notifications", filter: `recipient_id=eq.${userId}` },
