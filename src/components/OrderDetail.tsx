@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, History, Loader2, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Download, History, Loader2, Plus, Trash2 } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { generateOrderPdf, getOrderPdfUrl } from "@/lib/order-pdf.functions";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { OrderStatusBadge } from "@/components/OrderStatusBadge";
@@ -62,6 +64,25 @@ export function OrderDetail({ orderId, mode }: { orderId: string; mode: Mode }) 
   const [readyOpen, setReadyOpen] = useState(false);
   const [pickup, setPickup] = useState("");
   const [addProduct, setAddProduct] = useState("");
+  const [downloading, setDownloading] = useState(false);
+  const genPdf = useServerFn(generateOrderPdf);
+  const pdfUrl = useServerFn(getOrderPdfUrl);
+
+  async function downloadPdf() {
+    // Open the tab synchronously so mobile browsers don't block it as a popup.
+    const win = window.open("", "_blank");
+    setDownloading(true);
+    try {
+      const { url } = await pdfUrl({ data: { orderId } });
+      if (win) win.location.href = url;
+      else window.location.href = url;
+    } catch (e) {
+      win?.close();
+      toast.error(frenchError(e instanceof Error ? e.message : null));
+    } finally {
+      setDownloading(false);
+    }
+  }
 
   const order = data?.order;
   const status = order?.status as OrderStatus | undefined;
@@ -296,6 +317,11 @@ export function OrderDetail({ orderId, mode }: { orderId: string; mode: Mode }) 
       {mode === "admin" && status === "pending" && dirty ? (
         <p className="text-xs text-muted-foreground">Enregistrez les ajustements avant de valider.</p>
       ) : null}
+      {mode !== "readonly" && (status === "validated" || status === "ready") ? (
+        <Button variant="outline" className="h-12 w-full" onClick={downloadPdf} disabled={downloading}>
+          {downloading ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />} Télécharger le PDF
+        </Button>
+      ) : null}
       {mode === "admin" && status === "validated" ? (
         <Button className="h-12 w-full" onClick={() => setReadyOpen(true)}>
           Marquer disponible
@@ -338,12 +364,20 @@ export function OrderDetail({ orderId, mode }: { orderId: string; mode: Mode }) 
           <AlertDialogFooter>
             <AlertDialogCancel>Retour</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() =>
-                void run(
+              onClick={async () => {
+                const ok = await run(
                   () => supabase.rpc("decide_order", { _order_id: orderId, _decision: "validated", _reason: "" }),
                   "Commande validée.",
-                )
-              }
+                );
+                if (ok) {
+                  try {
+                    await genPdf({ data: { orderId } });
+                    refresh();
+                  } catch {
+                    toast.error("Le PDF sera généré au premier téléchargement.");
+                  }
+                }
+              }}
             >
               Valider
             </AlertDialogAction>
