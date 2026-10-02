@@ -16,6 +16,7 @@ import { Route as AuthenticatedCatalogueRouteImport } from './routes/_authentica
 import { Route as AuthenticatedCommanderRouteImport } from './routes/_authenticated/commander'
 import { Route as AuthenticatedFichesRouteImport } from './routes/_authenticated/fiches'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
+import { Route as VerifierTokenRouteImport } from './routes/verifier.$token'
 import { Route as AuthenticatedCampagnesIndexRouteImport } from './routes/_authenticated/campagnes.index'
 import { Route as AuthenticatedCampagnesCampaignIdRouteImport } from './routes/_authenticated/campagnes.$campaignId'
 import { Route as AuthenticatedCommandesIndexRouteImport } from './routes/_authenticated/commandes.index'
@@ -60,6 +61,11 @@ const AuthenticatedTableauDeBordRoute =
     path: '/tableau-de-bord',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const VerifierTokenRoute = VerifierTokenRouteImport.update({
+  id: '/verifier/$token',
+  path: '/verifier/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedCampagnesIndexRoute =
   AuthenticatedCampagnesIndexRouteImport.update({
     id: '/campagnes/',
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/commander': typeof AuthenticatedCommanderRoute
   '/fiches': typeof AuthenticatedFichesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/verifier/$token': typeof VerifierTokenRoute
   '/campagnes/$campaignId': typeof AuthenticatedCampagnesCampaignIdRoute
   '/commandes/$orderId': typeof AuthenticatedCommandesOrderIdRoute
   '/mes-commandes/$orderId': typeof AuthenticatedMesCommandesOrderIdRoute
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/commander': typeof AuthenticatedCommanderRoute
   '/fiches': typeof AuthenticatedFichesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/verifier/$token': typeof VerifierTokenRoute
   '/campagnes/$campaignId': typeof AuthenticatedCampagnesCampaignIdRoute
   '/commandes/$orderId': typeof AuthenticatedCommandesOrderIdRoute
   '/mes-commandes/$orderId': typeof AuthenticatedMesCommandesOrderIdRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/_authenticated/commander': typeof AuthenticatedCommanderRoute
   '/_authenticated/fiches': typeof AuthenticatedFichesRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/verifier/$token': typeof VerifierTokenRoute
   '/_authenticated/campagnes/$campaignId': typeof AuthenticatedCampagnesCampaignIdRoute
   '/_authenticated/commandes/$orderId': typeof AuthenticatedCommandesOrderIdRoute
   '/_authenticated/mes-commandes/$orderId': typeof AuthenticatedMesCommandesOrderIdRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/commander'
     | '/fiches'
     | '/tableau-de-bord'
+    | '/verifier/$token'
     | '/campagnes/$campaignId'
     | '/commandes/$orderId'
     | '/mes-commandes/$orderId'
@@ -184,6 +194,7 @@ export interface FileRouteTypes {
     | '/commander'
     | '/fiches'
     | '/tableau-de-bord'
+    | '/verifier/$token'
     | '/campagnes/$campaignId'
     | '/commandes/$orderId'
     | '/mes-commandes/$orderId'
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '/_authenticated/commander'
     | '/_authenticated/fiches'
     | '/_authenticated/tableau-de-bord'
+    | '/verifier/$token'
     | '/_authenticated/campagnes/$campaignId'
     | '/_authenticated/commandes/$orderId'
     | '/_authenticated/mes-commandes/$orderId'
@@ -215,6 +227,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   InitialisationRoute: typeof InitialisationRoute
+  VerifierTokenRoute: typeof VerifierTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -267,6 +280,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tableau-de-bord'
       preLoaderRoute: typeof AuthenticatedTableauDeBordRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/verifier/$token': {
+      id: '/verifier/$token'
+      path: '/verifier/$token'
+      fullPath: '/verifier/$token'
+      preLoaderRoute: typeof VerifierTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/campagnes/': {
       id: '/_authenticated/campagnes/'
@@ -364,6 +384,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   InitialisationRoute: InitialisationRoute,
+  VerifierTokenRoute: VerifierTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

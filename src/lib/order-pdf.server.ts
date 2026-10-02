@@ -114,7 +114,7 @@ export async function buildOrderPdf(input: PdfInput): Promise<Uint8Array> {
   y -= 26;
   const blockH = 64;
   page.drawRectangle({ x: M, y: y - blockH, width: W - 2 * M, height: blockH, color: ZEBRA, borderColor: rgb(0.85, 0.87, 0.9), borderWidth: 0.8 });
-  const cols = [
+  const cols: [string, string][] = [
     ["Zone", `${input.zoneName} (${input.zoneCode})`],
     ["Région", input.regionName],
     ["Agent", input.agentName],
@@ -130,7 +130,7 @@ export async function buildOrderPdf(input: PdfInput): Promise<Uint8Array> {
 
   // Table
   const tableW = W - 2 * M;
-  const cx = [M + 10, M + tableW * 0.62, M + tableW - 10];
+  const cx = [M + 10, M + tableW * 0.62, M + tableW - 10] as const;
   const rowH = 24;
   const header = () => {
     page.drawRectangle({ x: M, y: y - rowH + 6, width: tableW, height: rowH, color: NAVY });
