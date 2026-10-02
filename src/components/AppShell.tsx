@@ -1,3 +1,4 @@
+import emblemAsset from "@/assets/icorp-emblem.png.asset.json";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -117,8 +118,8 @@ function itemsForRole(role: AppRole | null): NavItem[] {
 function Brand({ compact }: { compact?: boolean }) {
   return (
     <div className="flex items-center gap-2.5">
-      <span className="flex size-9 items-center justify-center rounded-lg bg-accent text-sm font-bold text-accent-foreground">
-        IC
+      <span className="flex h-9 w-16 items-center justify-center rounded-lg bg-card px-1">
+        <img src={emblemAsset.url} alt="Logo ICORP" className="h-full w-full object-contain" />
       </span>
       <span className={cn("leading-tight", compact && "sr-only")}>
         <span className="block text-sm font-bold tracking-wide">ICORP</span>
