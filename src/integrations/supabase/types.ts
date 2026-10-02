@@ -340,9 +340,11 @@ export type Database = {
           decided_role: string | null
           id: string
           order_number: string | null
+          pdf_path: string | null
           pickup_instructions: string | null
           rejection_reason: string | null
           status: Database["public"]["Enums"]["order_status"]
+          verification_token: string | null
           zone_id: string
         }
         Insert: {
@@ -355,9 +357,11 @@ export type Database = {
           decided_role?: string | null
           id?: string
           order_number?: string | null
+          pdf_path?: string | null
           pickup_instructions?: string | null
           rejection_reason?: string | null
           status?: Database["public"]["Enums"]["order_status"]
+          verification_token?: string | null
           zone_id: string
         }
         Update: {
@@ -370,9 +374,11 @@ export type Database = {
           decided_role?: string | null
           id?: string
           order_number?: string | null
+          pdf_path?: string | null
           pickup_instructions?: string | null
           rejection_reason?: string | null
           status?: Database["public"]["Enums"]["order_status"]
+          verification_token?: string | null
           zone_id?: string
         }
         Relationships: [
@@ -782,6 +788,7 @@ export type Database = {
         }[]
       }
       stats_overview: { Args: never; Returns: Json }
+      verify_order_token: { Args: { _token: string }; Returns: Json }
     }
     Enums: {
       app_role:

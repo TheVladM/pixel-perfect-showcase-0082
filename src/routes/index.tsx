@@ -1,3 +1,4 @@
+import logoAsset from "@/assets/logo-icorp.webp.asset.json";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -75,10 +76,12 @@ function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-6 flex flex-col items-center text-center">
-          <span className="flex size-14 items-center justify-center rounded-2xl bg-primary text-lg font-bold text-primary-foreground">
-            IC
-          </span>
-          <h1 className="mt-4 text-2xl font-bold tracking-tight">ICORP Terrain</h1>
+          <img
+            src={logoAsset.url}
+            alt="Intelligentsia Corporation — Il suffit d'y croire !"
+            className="-my-6 h-48 w-48 object-contain"
+          />
+          <h1 className="mt-2 text-2xl font-bold tracking-tight">ICORP Terrain</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Plateforme interne — année scolaire 2026-2027
           </p>
