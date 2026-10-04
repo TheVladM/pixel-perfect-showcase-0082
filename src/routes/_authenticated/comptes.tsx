@@ -181,6 +181,8 @@ function AccountsPage() {
       await resetPassword({ data: { userId: resetFor.id, password: newPassword } });
       toast.success(`Mot de passe de « ${resetFor.accountName} » réinitialisé.`);
       setResetFor(null);
+      setNewPassword("");
+      setConfirmPassword("");
     } catch (e) {
       toast.error(errorMessage(e));
     } finally {
