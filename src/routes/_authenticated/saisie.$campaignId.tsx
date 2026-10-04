@@ -30,10 +30,12 @@ import { useClasses, useFormFields, useSchools, useSeries } from "@/lib/queries"
 import { frenchError, isCampaignOpen } from "@/lib/format";
 import { useMe } from "@/lib/session";
 import { cn } from "@/lib/utils";
+import { requireRole } from "@/lib/route-guards";
 
 const AGENT_KEY = "icorp_agent_name";
 
 export const Route = createFileRoute("/_authenticated/saisie/$campaignId")({
+  beforeLoad: ({ context }) => requireRole(context.queryClient, ["zone"]),
   head: () => ({
     meta: [
       { title: "Nouvelle fiche — ICORP Terrain" },

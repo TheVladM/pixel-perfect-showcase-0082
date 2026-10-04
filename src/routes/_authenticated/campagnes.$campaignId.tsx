@@ -30,8 +30,10 @@ import {
 } from "@/components/ui/select";
 import { useFormFields } from "@/lib/queries";
 import { frenchError } from "@/lib/format";
+import { requireRole } from "@/lib/route-guards";
 
 export const Route = createFileRoute("/_authenticated/campagnes/$campaignId")({
+  beforeLoad: ({ context }) => requireRole(context.queryClient, ["admin_principal"]),
   head: () => ({
     meta: [
       { title: "Formulaire de campagne — ICORP Terrain" },

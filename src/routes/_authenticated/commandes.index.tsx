@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/AppShell";
 import { OrderList } from "@/components/OrderList";
+import { requireRole } from "@/lib/route-guards";
 
 export const Route = createFileRoute("/_authenticated/commandes/")({
+  beforeLoad: ({ context }) => requireRole(context.queryClient, ["admin_principal", "admin_logistique", "dg", "promoteur"]),
   head: () => ({
     meta: [
       { title: "Commandes — ICORP Terrain" },

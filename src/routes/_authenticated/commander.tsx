@@ -15,10 +15,12 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { frenchError } from "@/lib/format";
 import { formatQty, useProducts } from "@/lib/orders";
 import { useMe } from "@/lib/session";
+import { requireRole } from "@/lib/route-guards";
 
 const AGENT_KEY = "icorp_agent_name";
 
 export const Route = createFileRoute("/_authenticated/commander")({
+  beforeLoad: ({ context }) => requireRole(context.queryClient, ["zone"]),
   head: () => ({
     meta: [
       { title: "Catalogue — ICORP Terrain" },

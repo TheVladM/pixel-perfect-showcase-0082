@@ -31,8 +31,10 @@ import {
 import { useCampaigns } from "@/lib/queries";
 import { campaignStatus, formatDate, frenchError, type CampaignStatus } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { requireRole } from "@/lib/route-guards";
 
 export const Route = createFileRoute("/_authenticated/campagnes/")({
+  beforeLoad: ({ context }) => requireRole(context.queryClient, ["admin_principal"]),
   head: () => ({
     meta: [
       { title: "Campagnes — ICORP Terrain" },

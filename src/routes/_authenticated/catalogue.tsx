@@ -21,8 +21,10 @@ import {
 } from "@/components/ui/dialog";
 import { frenchError } from "@/lib/format";
 import { useProducts } from "@/lib/orders";
+import { requireRole } from "@/lib/route-guards";
 
 export const Route = createFileRoute("/_authenticated/catalogue")({
+  beforeLoad: ({ context }) => requireRole(context.queryClient, ["admin_principal"]),
   head: () => ({
     meta: [
       { title: "Catalogue produits — ICORP Terrain" },

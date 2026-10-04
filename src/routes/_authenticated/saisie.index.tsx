@@ -5,8 +5,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/AppShell";
 import { EmptyState } from "@/components/EmptyState";
 import { Skeleton } from "@/components/ui/skeleton";
+import { requireRole } from "@/lib/route-guards";
 
 export const Route = createFileRoute("/_authenticated/saisie/")({
+  beforeLoad: ({ context }) => requireRole(context.queryClient, ["zone"]),
   head: () => ({
     meta: [
       { title: "Mes campagnes — ICORP Terrain" },

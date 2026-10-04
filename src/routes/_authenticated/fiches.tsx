@@ -30,8 +30,10 @@ import {
 import { useCampaigns, useClasses, useRegions, useSeries, useZones } from "@/lib/queries";
 import { formatDateTime, frenchError, sexLabel } from "@/lib/format";
 import { useMe } from "@/lib/session";
+import { requireRole } from "@/lib/route-guards";
 
 export const Route = createFileRoute("/_authenticated/fiches")({
+  beforeLoad: ({ context }) => requireRole(context.queryClient, ["admin_principal", "dg", "promoteur", "zone"]),
   head: () => ({
     meta: [
       { title: "Fiches élèves — ICORP Terrain" },

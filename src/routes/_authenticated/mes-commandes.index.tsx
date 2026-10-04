@@ -2,8 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ShoppingCart } from "lucide-react";
 import { PageHeader, Button } from "@/components/AppShell";
 import { OrderList } from "@/components/OrderList";
+import { requireRole } from "@/lib/route-guards";
 
 export const Route = createFileRoute("/_authenticated/mes-commandes/")({
+  beforeLoad: ({ context }) => requireRole(context.queryClient, ["zone"]),
   head: () => ({
     meta: [
       { title: "Mes commandes — ICORP Terrain" },
