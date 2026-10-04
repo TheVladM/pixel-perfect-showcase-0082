@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as InitialisationRouteImport } from './routes/initialisation'
 import { Route as AuthenticatedCatalogueRouteImport } from './routes/_authenticated/catalogue'
+import { Route as AuthenticatedClassesSeriesRouteImport } from './routes/_authenticated/classes-series'
 import { Route as AuthenticatedCommanderRouteImport } from './routes/_authenticated/commander'
 import { Route as AuthenticatedComptesRouteImport } from './routes/_authenticated/comptes'
 import { Route as AuthenticatedEtablissementsRouteImport } from './routes/_authenticated/etablissements'
@@ -47,6 +48,12 @@ const AuthenticatedCatalogueRoute = AuthenticatedCatalogueRouteImport.update({
   path: '/catalogue',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedClassesSeriesRoute =
+  AuthenticatedClassesSeriesRouteImport.update({
+    id: '/classes-series',
+    path: '/classes-series',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCommanderRoute = AuthenticatedCommanderRouteImport.update({
   id: '/commander',
   path: '/commander',
@@ -132,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
   '/catalogue': typeof AuthenticatedCatalogueRoute
+  '/classes-series': typeof AuthenticatedClassesSeriesRoute
   '/commander': typeof AuthenticatedCommanderRoute
   '/comptes': typeof AuthenticatedComptesRoute
   '/etablissements': typeof AuthenticatedEtablissementsRoute
@@ -151,6 +159,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/initialisation': typeof InitialisationRoute
   '/catalogue': typeof AuthenticatedCatalogueRoute
+  '/classes-series': typeof AuthenticatedClassesSeriesRoute
   '/commander': typeof AuthenticatedCommanderRoute
   '/comptes': typeof AuthenticatedComptesRoute
   '/etablissements': typeof AuthenticatedEtablissementsRoute
@@ -172,6 +181,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/initialisation': typeof InitialisationRoute
   '/_authenticated/catalogue': typeof AuthenticatedCatalogueRoute
+  '/_authenticated/classes-series': typeof AuthenticatedClassesSeriesRoute
   '/_authenticated/commander': typeof AuthenticatedCommanderRoute
   '/_authenticated/comptes': typeof AuthenticatedComptesRoute
   '/_authenticated/etablissements': typeof AuthenticatedEtablissementsRoute
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/'
     | '/initialisation'
     | '/catalogue'
+    | '/classes-series'
     | '/commander'
     | '/comptes'
     | '/etablissements'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/'
     | '/initialisation'
     | '/catalogue'
+    | '/classes-series'
     | '/commander'
     | '/comptes'
     | '/etablissements'
@@ -232,6 +244,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/initialisation'
     | '/_authenticated/catalogue'
+    | '/_authenticated/classes-series'
     | '/_authenticated/commander'
     | '/_authenticated/comptes'
     | '/_authenticated/etablissements'
@@ -283,6 +296,13 @@ declare module '@tanstack/react-router' {
       path: '/catalogue'
       fullPath: '/catalogue'
       preLoaderRoute: typeof AuthenticatedCatalogueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/classes-series': {
+      id: '/_authenticated/classes-series'
+      path: '/classes-series'
+      fullPath: '/classes-series'
+      preLoaderRoute: typeof AuthenticatedClassesSeriesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/commander': {
@@ -388,6 +408,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedCatalogueRoute: typeof AuthenticatedCatalogueRoute
+  AuthenticatedClassesSeriesRoute: typeof AuthenticatedClassesSeriesRoute
   AuthenticatedCommanderRoute: typeof AuthenticatedCommanderRoute
   AuthenticatedComptesRoute: typeof AuthenticatedComptesRoute
   AuthenticatedEtablissementsRoute: typeof AuthenticatedEtablissementsRoute
@@ -405,6 +426,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCatalogueRoute: AuthenticatedCatalogueRoute,
+  AuthenticatedClassesSeriesRoute: AuthenticatedClassesSeriesRoute,
   AuthenticatedCommanderRoute: AuthenticatedCommanderRoute,
   AuthenticatedComptesRoute: AuthenticatedComptesRoute,
   AuthenticatedEtablissementsRoute: AuthenticatedEtablissementsRoute,
