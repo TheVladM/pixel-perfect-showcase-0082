@@ -15,6 +15,7 @@ import { Route as InitialisationRouteImport } from './routes/initialisation'
 import { Route as AuthenticatedCatalogueRouteImport } from './routes/_authenticated/catalogue'
 import { Route as AuthenticatedCommanderRouteImport } from './routes/_authenticated/commander'
 import { Route as AuthenticatedComptesRouteImport } from './routes/_authenticated/comptes'
+import { Route as AuthenticatedEtablissementsRouteImport } from './routes/_authenticated/etablissements'
 import { Route as AuthenticatedFichesRouteImport } from './routes/_authenticated/fiches'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
 import { Route as VerifierTokenRouteImport } from './routes/verifier.$token'
@@ -56,6 +57,12 @@ const AuthenticatedComptesRoute = AuthenticatedComptesRouteImport.update({
   path: '/comptes',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedEtablissementsRoute =
+  AuthenticatedEtablissementsRouteImport.update({
+    id: '/etablissements',
+    path: '/etablissements',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedFichesRoute = AuthenticatedFichesRouteImport.update({
   id: '/fiches',
   path: '/fiches',
@@ -127,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/catalogue': typeof AuthenticatedCatalogueRoute
   '/commander': typeof AuthenticatedCommanderRoute
   '/comptes': typeof AuthenticatedComptesRoute
+  '/etablissements': typeof AuthenticatedEtablissementsRoute
   '/fiches': typeof AuthenticatedFichesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/verifier/$token': typeof VerifierTokenRoute
@@ -145,6 +153,7 @@ export interface FileRoutesByTo {
   '/catalogue': typeof AuthenticatedCatalogueRoute
   '/commander': typeof AuthenticatedCommanderRoute
   '/comptes': typeof AuthenticatedComptesRoute
+  '/etablissements': typeof AuthenticatedEtablissementsRoute
   '/fiches': typeof AuthenticatedFichesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/verifier/$token': typeof VerifierTokenRoute
@@ -165,6 +174,7 @@ export interface FileRoutesById {
   '/_authenticated/catalogue': typeof AuthenticatedCatalogueRoute
   '/_authenticated/commander': typeof AuthenticatedCommanderRoute
   '/_authenticated/comptes': typeof AuthenticatedComptesRoute
+  '/_authenticated/etablissements': typeof AuthenticatedEtablissementsRoute
   '/_authenticated/fiches': typeof AuthenticatedFichesRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/verifier/$token': typeof VerifierTokenRoute
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/commander'
     | '/comptes'
+    | '/etablissements'
     | '/fiches'
     | '/tableau-de-bord'
     | '/verifier/$token'
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/commander'
     | '/comptes'
+    | '/etablissements'
     | '/fiches'
     | '/tableau-de-bord'
     | '/verifier/$token'
@@ -222,6 +234,7 @@ export interface FileRouteTypes {
     | '/_authenticated/catalogue'
     | '/_authenticated/commander'
     | '/_authenticated/comptes'
+    | '/_authenticated/etablissements'
     | '/_authenticated/fiches'
     | '/_authenticated/tableau-de-bord'
     | '/verifier/$token'
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       path: '/comptes'
       fullPath: '/comptes'
       preLoaderRoute: typeof AuthenticatedComptesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/etablissements': {
+      id: '/_authenticated/etablissements'
+      path: '/etablissements'
+      fullPath: '/etablissements'
+      preLoaderRoute: typeof AuthenticatedEtablissementsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/fiches': {
@@ -370,6 +390,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCatalogueRoute: typeof AuthenticatedCatalogueRoute
   AuthenticatedCommanderRoute: typeof AuthenticatedCommanderRoute
   AuthenticatedComptesRoute: typeof AuthenticatedComptesRoute
+  AuthenticatedEtablissementsRoute: typeof AuthenticatedEtablissementsRoute
   AuthenticatedFichesRoute: typeof AuthenticatedFichesRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
   AuthenticatedCampagnesCampaignIdRoute: typeof AuthenticatedCampagnesCampaignIdRoute
@@ -386,6 +407,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCatalogueRoute: AuthenticatedCatalogueRoute,
   AuthenticatedCommanderRoute: AuthenticatedCommanderRoute,
   AuthenticatedComptesRoute: AuthenticatedComptesRoute,
+  AuthenticatedEtablissementsRoute: AuthenticatedEtablissementsRoute,
   AuthenticatedFichesRoute: AuthenticatedFichesRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
   AuthenticatedCampagnesCampaignIdRoute: AuthenticatedCampagnesCampaignIdRoute,
