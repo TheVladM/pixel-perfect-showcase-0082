@@ -19,6 +19,7 @@ import { Route as AuthenticatedComptesRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedEtablissementsRouteImport } from './routes/_authenticated/etablissements'
 import { Route as AuthenticatedFichesRouteImport } from './routes/_authenticated/fiches'
 import { Route as AuthenticatedIntervenantsRouteImport } from './routes/_authenticated/intervenants'
+import { Route as AuthenticatedJournalAuditRouteImport } from './routes/_authenticated/journal-audit'
 import { Route as AuthenticatedRegionsZonesRouteImport } from './routes/_authenticated/regions-zones'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
 import { Route as VerifierTokenRouteImport } from './routes/verifier.$token'
@@ -81,6 +82,12 @@ const AuthenticatedIntervenantsRoute =
   AuthenticatedIntervenantsRouteImport.update({
     id: '/intervenants',
     path: '/intervenants',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedJournalAuditRoute =
+  AuthenticatedJournalAuditRouteImport.update({
+    id: '/journal-audit',
+    path: '/journal-audit',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedRegionsZonesRoute =
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/etablissements': typeof AuthenticatedEtablissementsRoute
   '/fiches': typeof AuthenticatedFichesRoute
   '/intervenants': typeof AuthenticatedIntervenantsRoute
+  '/journal-audit': typeof AuthenticatedJournalAuditRoute
   '/regions-zones': typeof AuthenticatedRegionsZonesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/verifier/$token': typeof VerifierTokenRoute
@@ -181,6 +189,7 @@ export interface FileRoutesByTo {
   '/etablissements': typeof AuthenticatedEtablissementsRoute
   '/fiches': typeof AuthenticatedFichesRoute
   '/intervenants': typeof AuthenticatedIntervenantsRoute
+  '/journal-audit': typeof AuthenticatedJournalAuditRoute
   '/regions-zones': typeof AuthenticatedRegionsZonesRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/verifier/$token': typeof VerifierTokenRoute
@@ -205,6 +214,7 @@ export interface FileRoutesById {
   '/_authenticated/etablissements': typeof AuthenticatedEtablissementsRoute
   '/_authenticated/fiches': typeof AuthenticatedFichesRoute
   '/_authenticated/intervenants': typeof AuthenticatedIntervenantsRoute
+  '/_authenticated/journal-audit': typeof AuthenticatedJournalAuditRoute
   '/_authenticated/regions-zones': typeof AuthenticatedRegionsZonesRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/verifier/$token': typeof VerifierTokenRoute
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/etablissements'
     | '/fiches'
     | '/intervenants'
+    | '/journal-audit'
     | '/regions-zones'
     | '/tableau-de-bord'
     | '/verifier/$token'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/etablissements'
     | '/fiches'
     | '/intervenants'
+    | '/journal-audit'
     | '/regions-zones'
     | '/tableau-de-bord'
     | '/verifier/$token'
@@ -274,6 +286,7 @@ export interface FileRouteTypes {
     | '/_authenticated/etablissements'
     | '/_authenticated/fiches'
     | '/_authenticated/intervenants'
+    | '/_authenticated/journal-audit'
     | '/_authenticated/regions-zones'
     | '/_authenticated/tableau-de-bord'
     | '/verifier/$token'
@@ -366,6 +379,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIntervenantsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/journal-audit': {
+      id: '/_authenticated/journal-audit'
+      path: '/journal-audit'
+      fullPath: '/journal-audit'
+      preLoaderRoute: typeof AuthenticatedJournalAuditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/regions-zones': {
       id: '/_authenticated/regions-zones'
       path: '/regions-zones'
@@ -454,6 +474,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEtablissementsRoute: typeof AuthenticatedEtablissementsRoute
   AuthenticatedFichesRoute: typeof AuthenticatedFichesRoute
   AuthenticatedIntervenantsRoute: typeof AuthenticatedIntervenantsRoute
+  AuthenticatedJournalAuditRoute: typeof AuthenticatedJournalAuditRoute
   AuthenticatedRegionsZonesRoute: typeof AuthenticatedRegionsZonesRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
   AuthenticatedCampagnesCampaignIdRoute: typeof AuthenticatedCampagnesCampaignIdRoute
@@ -474,6 +495,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEtablissementsRoute: AuthenticatedEtablissementsRoute,
   AuthenticatedFichesRoute: AuthenticatedFichesRoute,
   AuthenticatedIntervenantsRoute: AuthenticatedIntervenantsRoute,
+  AuthenticatedJournalAuditRoute: AuthenticatedJournalAuditRoute,
   AuthenticatedRegionsZonesRoute: AuthenticatedRegionsZonesRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
   AuthenticatedCampagnesCampaignIdRoute: AuthenticatedCampagnesCampaignIdRoute,
